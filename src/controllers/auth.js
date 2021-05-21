@@ -69,15 +69,15 @@ const register = async (req, res) => {
             message: "The request body must contain a username property",
         });
 
-    // create a user object
-    const user = {
-        username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, 8),
-        role: req.body.isAdmin ? "admin" : "member",
-    };
-
-    // handle the request
     try {
+        // create a user object
+        const user = {
+            username: req.body.username,
+            password: await bcrypt.hash(req.body.password, 8),
+            role: req.body.isAdmin ? "admin" : "member",
+        };
+
+        // handle the request
         // create the user in the database
         let retUser = await UserModel.create(user);
 
